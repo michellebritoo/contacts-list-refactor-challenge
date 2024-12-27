@@ -1,20 +1,18 @@
 package com.list.desafio.android
 
-import android.view.View
+import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
+import com.list.desafio.android.data.model.UserResponse
+import com.list.desafio.android.presentation.UserListAdapter
+import com.list.desafio.android.presentation.UsersUIEvent
+import com.list.desafio.android.presentation.UsersViewModel
 import org.koin.android.ext.android.inject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -22,7 +20,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var progressBar: ProgressBar
     private lateinit var adapter: UserListAdapter
 
-    private val service: UsersClient by inject()
+    private val viewModel: UsersViewModel by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        observeEvents()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -34,24 +38,39 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        progressBar.visibility = View.VISIBLE
-        service.getUsers()
-            .enqueue(object : Callback<List<User>> {
-                override fun onFailure(call: Call<List<User>>, t: Throwable) {
-                    val message = getString(R.string.error)
+        viewModel.onStart()
+    }
 
-                    progressBar.visibility = View.GONE
-                    recyclerView.visibility = View.GONE
-
-                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
-                        .show()
+    private fun observeEvents() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.viewState.collect { event ->
+                when (event) {
+                    is UsersUIEvent.ShowLoading -> showLoading()
+                    is UsersUIEvent.HideLoading -> hideLoading()
+                    is UsersUIEvent.ShowError -> showError()
+                    is UsersUIEvent.ShowUsersList -> showUserList(event.list)
                 }
+            }
+        }
+    }
 
-                override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-                    progressBar.visibility = View.GONE
+    private fun showLoading() {
+        progressBar.isVisible = true
+    }
 
-                    adapter.users = response.body()!!
-                }
-            })
+    private fun hideLoading() {
+        progressBar.isVisible = false
+    }
+
+    private fun showUserList(list: List<UserResponse>) {
+        adapter.users = list
+    }
+
+    private fun showError() {
+        Toast.makeText(
+            this,
+            getString(R.string.error),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
