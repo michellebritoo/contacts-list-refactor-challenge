@@ -7,9 +7,9 @@ import org.junit.Test
 import retrofit2.Call
 import retrofit2.Response
 
-class ExampleServiceTest {
+class ExampleUsersClientTest {
 
-    private val api = mock<Service>()
+    private val api = mock<UsersClient>()
 
     private val service = ExampleService(api)
 

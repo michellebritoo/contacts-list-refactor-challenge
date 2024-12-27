@@ -1,7 +1,7 @@
 package com.list.desafio.android
 
 class ExampleService(
-    private val service: Service
+    private val service: UsersClient
 ) {
 
     fun example(): List<User> {
