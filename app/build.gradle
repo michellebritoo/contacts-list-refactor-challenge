@@ -9,12 +9,12 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace "com.list.desafio.android"
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.list.desafio.android"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -77,6 +77,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-full:$view_binding_delegate")
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:$view_binding_delegate")
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
