@@ -1,4 +1,4 @@
-package com.list.desafio.android.data
+package com.list.desafio.android.data.remote
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
