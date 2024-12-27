@@ -1,7 +1,9 @@
-package com.list.desafio.android
+package com.list.desafio.android.presentation
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.list.desafio.android.R
+import com.list.desafio.android.data.model.UserResponse
 import com.list.desafio.android.databinding.ListItemUserBinding
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -12,7 +14,7 @@ class UserListItemViewHolder(
 
     private val userItem = ListItemUserBinding.bind(itemView)
 
-    fun bind(user: User) {
+    fun bind(user: UserResponse) {
         userItem.name.text = user.name
         userItem.username.text = user.username
         userItem.progressBar.visibility = View.VISIBLE
