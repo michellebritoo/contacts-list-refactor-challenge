@@ -3,6 +3,8 @@ package com.list.desafio.android.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.list.desafio.android.data.UsersRepository
+import com.list.desafio.android.data.model.UserResponse
+import com.list.desafio.android.presentation.adapter.UserUIModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,12 +24,26 @@ class UsersViewModel(private val repository: UsersRepository) : ViewModel() {
                 .onCompletion { sendUIEvent(UsersUIEvent.Loader(shouldShowLoad = false)) }
                 .catch { sendUIEvent(UsersUIEvent.ShowError) }
                 .collect { response ->
-                    sendUIEvent(UsersUIEvent.ShowUsersList(response))
+                    sendUIEvent(
+                        UsersUIEvent.ShowUsersList(
+                            list = response.toUIModel()
+                        )
+                    )
                 }
         }
     }
 
     private suspend fun sendUIEvent(event: UsersUIEvent) {
         _viewState.emit(event)
+    }
+
+    private fun List<UserResponse>.toUIModel(): List<UserUIModel> {
+        return map { user ->
+            UserUIModel(
+                name = user.name.orEmpty(),
+                username = user.username.orEmpty(),
+                image = user.image.orEmpty()
+            )
+        }
     }
 }

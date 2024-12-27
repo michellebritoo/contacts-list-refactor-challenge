@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
-    @SerializedName("img") val img: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("id") val id: Int,
-    @SerializedName("username") val username: String
+    @SerializedName("id") val id: Int? = 0,
+    @SerializedName("img") val image: String? = "",
+    @SerializedName("name") val name: String? = "",
+    @SerializedName("username") val username: String? = ""
 ) : Parcelable

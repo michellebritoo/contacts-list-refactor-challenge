@@ -9,23 +9,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.list.desafio.android.data.model.UserResponse
 import com.list.desafio.android.databinding.ActivityMainBinding
-import com.list.desafio.android.presentation.UserListAdapter
+import com.list.desafio.android.presentation.adapter.UserListAdapter
 import com.list.desafio.android.presentation.UsersUIEvent
 import com.list.desafio.android.presentation.UsersViewModel
+import com.list.desafio.android.presentation.adapter.UserUIModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel: UsersViewModel by inject()
     private val binding: ActivityMainBinding by viewBinding()
-    private val adapter: UserListAdapter = UserListAdapter()
+    private val adapter: UserListAdapter by lazy { UserListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupList()
         observeEvents()
     }
 
@@ -53,7 +52,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding.userListProgressBar.isVisible = shouldShowLoading
     }
 
-    private fun showUserList(list: List<UserResponse>) {
+    private fun showUserList(list: List<UserUIModel>) {
+        setupList()
         adapter.users = list
     }
 

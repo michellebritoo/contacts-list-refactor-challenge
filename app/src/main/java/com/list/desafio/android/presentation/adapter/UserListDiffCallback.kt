@@ -1,11 +1,10 @@
-package com.list.desafio.android.presentation
+package com.list.desafio.android.presentation.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.list.desafio.android.data.model.UserResponse
 
 class UserListDiffCallback(
-    private val oldList: List<UserResponse>,
-    private val newList: List<UserResponse>
+    private val oldList: List<UserUIModel>,
+    private val newList: List<UserUIModel>
 ) : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
