@@ -10,9 +10,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.list.desafio.android.databinding.ActivityMainBinding
-import com.list.desafio.android.presentation.adapter.UserListAdapter
 import com.list.desafio.android.presentation.UsersUIEvent
 import com.list.desafio.android.presentation.UsersViewModel
+import com.list.desafio.android.presentation.adapter.UserListAdapter
 import com.list.desafio.android.presentation.adapter.UserUIModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun observeEvents() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.viewState.collect { event ->
                     when (event) {
                         is UsersUIEvent.Loader -> loader(event.shouldShowLoad)
