@@ -1,8 +1,7 @@
 package com.list.desafio.android
 
 import android.app.Application
-import com.list.desafio.android.di.DataModule
-import com.list.desafio.android.di.PresentationModule
+import com.list.desafio.android.di.AppModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -13,10 +12,7 @@ class AppApplication : Application() {
 
         startKoin {
             androidContext(this@AppApplication)
-            modules(
-                DataModule,
-                PresentationModule
-            )
+            modules(AppModule)
         }
     }
 }

@@ -3,7 +3,7 @@ package com.list.desafio.android.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.list.desafio.android.data.UsersRepository
-import com.list.desafio.android.data.model.UserResponse
+import com.list.desafio.android.data.remote.UserResponse
 import com.list.desafio.android.presentation.adapter.UserUIModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +26,7 @@ class UsersViewModel(private val repository: UsersRepository) : ViewModel() {
                 .collect { response ->
                     sendUIEvent(
                         UsersUIEvent.ShowUsersList(
-                            list = response.toUIModel()
+                            list = response.responseToUIModel()
                         )
                     )
                 }
@@ -37,7 +37,7 @@ class UsersViewModel(private val repository: UsersRepository) : ViewModel() {
         _viewState.emit(event)
     }
 
-    private fun List<UserResponse>.toUIModel(): List<UserUIModel> {
+    private fun List<UserResponse>.responseToUIModel(): List<UserUIModel> {
         return map { user ->
             UserUIModel(
                 name = user.name.orEmpty(),

@@ -1,4 +1,4 @@
-package com.list.desafio.android.data.model
+package com.list.desafio.android.data.remote
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

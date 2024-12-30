@@ -30,6 +30,7 @@ buildscript {
         rxandroid_version = "2.1.1"
         core_ktx_test_version = "1.2.0"
         view_binding_delegate = "1.5.9"
+        room_version = "2.6.1"
     }
 
     repositories {
