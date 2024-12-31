@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="twenty_four_dp">24dp</dimen>
+    <dimen name="forty_eight_dp">48dp</dimen>
+    <dimen name="base_dp">8dp</dimen>
+    <dimen name="double_dp">16dp</dimen>
+    <dimen name="fifty_two_dp">52dp</dimen>
+    <dimen name="twelve_dp">12dp</dimen>
+    <dimen name="zero_grid">0dp</dimen>
+</resources>

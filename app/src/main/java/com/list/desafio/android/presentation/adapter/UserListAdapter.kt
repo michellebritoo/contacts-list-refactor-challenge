@@ -1,4 +1,4 @@
-package com.list.desafio.android
+package com.list.desafio.android.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import com.list.desafio.android.R
 
 class UserListAdapter : RecyclerView.Adapter<UserListItemViewHolder>() {
 
-    var users = emptyList<User>()
+    var users = emptyList<UserUIModel>()
         set(value) {
             val result = DiffUtil.calculateDiff(
                 UserListDiffCallback(
