@@ -48,6 +48,8 @@ class UsersViewModel(private val repository: UsersRepository) : ViewModel() {
 
     private suspend fun getLocalData() = viewModelScope.launch(Dispatchers.IO) {
         repository.getAllUserFromLocalStorage()
+            .onStart { sendUIEvent(UsersUIEvent.Loader(shouldShowLoad = true)) }
+            .onCompletion { sendUIEvent(UsersUIEvent.Loader(shouldShowLoad = false)) }
             .catch { sendUIEvent(UsersUIEvent.ShowError) }
             .collect { users ->
                 sendUIEvent(

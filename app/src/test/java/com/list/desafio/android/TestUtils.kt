@@ -4,14 +4,14 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestRule
+import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import org.junit.runners.model.Statement
 
 inline fun <reified T> relaxedMock(): T = mockk(relaxed = true)
 
@@ -23,28 +23,16 @@ fun coVerifyNever(block: suspend () -> Unit) {
     coVerify(exactly = 0) { block() }
 }
 
-suspend inline fun <reified T> Flow<Any>.withEvent(crossinline validation: (T) -> Unit) {
-    val event = first()
-    if (event is T) {
-        validation(event)
+@OptIn(ExperimentalCoroutinesApi::class)
+class TestCoroutineRule(
+    val testDispatcher: TestDispatcher = StandardTestDispatcher(TestCoroutineScheduler())
+) : TestWatcher() {
+
+    override fun starting(description: Description?) {
+        Dispatchers.setMain(testDispatcher)
     }
-}
 
-class CoroutineTestRule : TestRule {
-    val testDispatcher = TestCoroutineDispatcher()
-
-    override fun apply(base: Statement, description: Description): Statement {
-        return object : Statement() {
-            @Throws(Throwable::class)
-            override fun evaluate() {
-                Dispatchers.setMain(testDispatcher)
-                try {
-                    base.evaluate()
-                } finally {
-                    Dispatchers.resetMain()
-                    testDispatcher.cleanupTestCoroutines()
-                }
-            }
-        }
+    override fun finished(description: Description?) {
+        Dispatchers.resetMain()
     }
 }
