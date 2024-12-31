@@ -102,6 +102,7 @@ dependencies {
     implementation "io.insert-koin:koin-test:$koin_version"
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation "app.cash.turbine:turbine:$turbine_version"
 
     androidTestImplementation "androidx.test:runner:$test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
